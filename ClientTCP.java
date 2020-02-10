@@ -1,8 +1,10 @@
+// Client Program to send a Text to Server through TCP
 import java.io.*;  
 import java.net.*;  
-public class Client {  
+public class ClientTCP {  
     public static void main(String[] args) {  
         try{      
+            System.out.println("Client is Sending Message..");
             Socket s=new Socket("localhost",6666);  
             DataOutputStream dout=new DataOutputStream(s.getOutputStream());  
             dout.writeUTF("Hello Server");  

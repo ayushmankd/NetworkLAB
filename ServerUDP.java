@@ -1,3 +1,4 @@
+// Server Program to Recieve a Text from Client through UDP 
 import java.io.*;
 import java.net.*;
 public class ServerUDP {
@@ -5,6 +6,7 @@ public class ServerUDP {
     public static void main(String[] args) {
         int port = 6000;
         try {
+            System.out.println("Server Running..");
             DatagramSocket socket = new DatagramSocket(port);
             byte[] buffer = new byte[512];
             DatagramPacket message = new DatagramPacket(buffer, buffer.length);
