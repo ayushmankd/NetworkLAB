@@ -16,16 +16,16 @@ public class ServerTCPFile {
             File file = null;
             switch (fileOption) {
                 case 1:
-                    file = new File("./ServerText.txt");
+                    file = new File("./ServerFiles/ServerText.txt");
                     break;
                 case 2:
-                    file = new File("./ServerImage.jpg");
+                    file = new File("./ServerFiles/ServerImage.jpg");
                     break;
                 case 3:
-                    file = new File("./ServerAudio.ogg");
+                    file = new File("./ServerFiles/ServerAudio.ogg");
                     break;
                 case 4:
-                    file = new File("./ServerVideo.mp4");
+                    file = new File("./ServerFiles/ServerVideo.mp4");
                     break;
                 
                 default:

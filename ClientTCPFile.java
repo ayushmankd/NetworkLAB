@@ -24,16 +24,16 @@ public class ClientTCPFile {
             File file = null;
             switch (option) {
                 case 1:
-                    file = new File("./ExampleMessage.txt");
+                    file = new File("./ClientFiles/ExampleMessage.txt");
                     break;
                 case 2:
-                    file = new File("./Image.jpg");
+                    file = new File("./ClientFiles/Image.jpg");
                     break;
                 case 3:
-                    file = new File("./sample_audio.ogg");
+                    file = new File("./ClientFiles/sample_audio.ogg");
                     break;
                 case 4:
-                    file = new File("./sample_video.mp4");
+                    file = new File("./ClientFiles/sample_video.mp4");
                     break;
                 default:
                     break;
