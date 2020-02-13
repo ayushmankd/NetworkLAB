@@ -25,28 +25,29 @@ public class ClientUDPFile {
             Scanner sc = new Scanner(System.in);
             int fileIndex = sc.nextInt();
             System.out.println("You Chose: "+files[fileIndex]);
+
             // Open the File in InputStream to send
             File fileToSend = new File("./ClientFiles/"+files[fileIndex]);
             FileInputStream fin = new FileInputStream(fileToSend);
+
             // Get the Extension of the File
             String extension = "";
             int i = files[fileIndex].lastIndexOf('.');
             if (i > 0) {
                 extension = files[fileIndex].substring(i+1);
             }
+
             // Send the File Extension and File Length
             String fileInfo = extension+"."+fileToSend.length();
             byte[] fileInfoByte = fileInfo.getBytes();
             DatagramPacket msg = new DatagramPacket(fileInfoByte, fileInfoByte.length, address, port);
             socket.send(msg);
+
+            // Convert the File into Byte Array
             byte[] file_bytes = new byte[(int)fileToSend.length()];
             fin.read(file_bytes);
-            // int last = 0;
-            // for (int j = 0; (j+1024) < (file_bytes.length); j+=1024) {
-            //     DatagramPacket message = new DatagramPacket(file_bytes, file_bytes.length, address, port);
-            //     socket.send(message);
-            //     last = j;
-            // }   
+
+            // Send the File
             DatagramPacket message = new DatagramPacket(file_bytes, file_bytes.length, address, port);
             socket.send(message);
             fin.close();

@@ -10,9 +10,15 @@ public class ServerTCPFile {
             Socket s=ss.accept();  
             DataInputStream din=new DataInputStream(s.getInputStream());  
             DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+
+            // Get Which type of File the Client has Selected and It's length
             int fileOption = Integer.parseInt(din.readUTF());
             long fileLengthComing = Long.parseLong(din.readUTF());
+
+            // Send OK Message so that Client can begin Sending File Buffers
             dout.writeUTF("OK");
+
+            // Open File for Writing
             File file = null;
             switch (fileOption) {
                 case 1:
@@ -27,12 +33,13 @@ public class ServerTCPFile {
                 case 4:
                     file = new File("./ServerFiles/ServerVideo.mp4");
                     break;
-                
                 default:
                     break;
             }
             FileOutputStream fout = new FileOutputStream(file);
             int fileLengthComingInt = Math.toIntExact(fileLengthComing);
+
+            // Get All the File Buffers
             int bufferSize = 5;
             byte[] byteArr = new byte[fileLengthComingInt];
             int currentOffset = 0;
@@ -49,7 +56,11 @@ public class ServerTCPFile {
             for(int i=0; i<fileLengthComingInt-currentOffset; i++){
                 byteArr[currentOffset+i] = bytes[i];
             }
+
+            // Write the Byte Array into File
             fout.write(byteArr);
+            
+            // Send Final DONE Message to Close Connection
             System.out.println("DONE");
             dout.writeUTF("Done");
             fout.close();

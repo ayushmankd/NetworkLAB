@@ -12,6 +12,9 @@ public class ClientTCPFile {
             Socket s=new Socket("localhost",6666);  
             DataOutputStream dout = new DataOutputStream(s.getOutputStream());  
             DataInputStream din = new DataInputStream(s.getInputStream());
+
+            // Tell the User to Select which type of file it wants to send
+            // The Files are predefined
             System.out.println("Select the Options From Below (Only Enter the Number): ");
             System.out.println("1. Send a Text File");
             System.out.println("2. Send a Image File");
@@ -20,7 +23,11 @@ public class ClientTCPFile {
             Scanner scan = new Scanner(System.in);
             int option = scan.nextInt();
             scan.close();
+
+            // Tell the Server which option the User Selected
             dout.writeUTF(""+option);
+
+            // Open the File for Reading
             File file = null;
             switch (option) {
                 case 1:
@@ -38,22 +45,28 @@ public class ClientTCPFile {
                 default:
                     break;
             }
+
             // File Operations
             FileInputStream fin = new FileInputStream(file);
             long fileLength = file.length();
             int fileLengthInt = Math.toIntExact(fileLength);
-
-            // Write the file into a byte Array and send the file length to 
-            // Server
+            
+            // Convert File into Byte Array
             byte[] byteArray = new byte[fileLengthInt];
             fin.read(byteArray);
+
+            // Send the File Length to Server
             dout.writeUTF(""+fileLength);  
             dout.flush();
 
+
+            // Send buffers of file
             int bufferSize = 5;
             String response = (String)din.readUTF();
             int currOffset = 0;
             byte[] bytes = new byte[bufferSize];
+            // Continue Sending Buffers until the Server Says So
+            // The Server checks the number of chunks and it's size and all
             while (response.compareTo("OK") == 0) {
                 if ((currOffset+bufferSize) <= fileLengthInt) {
                     bytes = Arrays.copyOfRange(byteArray, currOffset, currOffset+bufferSize);
@@ -66,6 +79,7 @@ public class ClientTCPFile {
                 currOffset += bufferSize;
                 response = (String)din.readUTF();
             }
+            
             fin.close();
             dout.flush();  
             dout.close();  

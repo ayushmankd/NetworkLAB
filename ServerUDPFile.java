@@ -1,8 +1,7 @@
 // Server Program to Recieve a Text from Client through UDP 
+// To Do Bigger Files
 import java.io.*;
 import java.net.*;
-
-
 public class ServerUDPFile {
  
     public static void main(String[] args) {
@@ -26,10 +25,12 @@ public class ServerUDPFile {
             }
             File file = new File("./ServerFiles/recieved."+fileType);
             FileOutputStream fout = new FileOutputStream(file);
+            
             byte[] byteArray = new byte[fileLength];
             DatagramPacket msg = new DatagramPacket(byteArray, byteArray.length);
             socket.receive(msg);
             fout.write(byteArray);
+
             System.out.println("File Written");
             fout.close();
             socket.close();
