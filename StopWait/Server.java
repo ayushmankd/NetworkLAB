@@ -1,10 +1,12 @@
 // Server Stop and Wait
+// UDP
 import java.io.*;
 import java.net.*;
 public class Server {
  
     public static void main(String[] args) {
         try {
+            // Initialization
             System.out.println("Server Running..");
             DatagramSocket socket = new DatagramSocket(5678);
             DatagramSocket send_socket = new DatagramSocket();
@@ -18,11 +20,14 @@ public class Server {
             InetAddress add;
             int rec_port = 0;
             do {
+                // Receive Message until END is not received
                 socket.receive(message);
                 add = message.getAddress();
                 rec_port = message.getPort();
                 text = new String(buffer, 0, message.getLength());
                 System.out.println(text);
+
+                // Send Acknowledgement
                 nextFrameStr = Integer.toString(nextFrame);
                 nextFrameStrBytes = nextFrameStr.getBytes();
                 send_packet = new DatagramPacket(
@@ -34,6 +39,8 @@ public class Server {
                 send_socket.send(send_packet);
                 nextFrame += 1;
             } while (text.compareTo("END") != 0);
+
+
             System.out.println("All Frames from Client were Received!!");
             socket.close();
         } catch (Exception ex) {
