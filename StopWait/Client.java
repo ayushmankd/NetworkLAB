@@ -45,6 +45,7 @@ public class Client {
                 msgRecPacket = new DatagramPacket(msg_rec, msg_rec.length);
                 rec_socket.receive(msgRecPacket);
                 msgRec = new String(msg_rec);
+                System.out.println("Message From Server (Frame Request)");
                 System.out.println("Next Frame: "+msgRec);
                 nextFrame = Integer.parseInt(msgRec.trim());
 
@@ -72,6 +73,7 @@ public class Client {
                     continue;
                 }
             }
+            System.out.println("All Frames Successfully Sent!!");
             send_socket.close();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
